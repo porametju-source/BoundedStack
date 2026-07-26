@@ -44,7 +44,7 @@ import java.util.Set;
  *     System.out.println(b.size());   // 2
  */
 public class BoundedStack{
-    private static final int MAX_EMPLOYEES = 99999;
+    private static final int MAX_EMPLOYEES = 1000;
 
     // ===== representation =====
     private final List<String> employees;
@@ -57,7 +57,8 @@ public class BoundedStack{
         for (String s : employees) {
             assert s != null : "ชื่อพนักงานต้องไม่เป็นnull";
             assert !s.trim().isEmpty() : "ชื่อพนักงานต้องไม่เป็นสตริงว่าง";
-            assert seen.add(s) : "ชื่อพนักงานต้องไม่ซ้ำ";
+            assert !seen.contains(s) : "ชื่อพนักงานต้องไม่ซ้ำกัน";
+            seen.add(s);
         }
     }
 
@@ -159,4 +160,12 @@ public class BoundedStack{
         Collections.reverse(employees);
         
     }
+    public boolean contains(String employee) {
+        return employees.contains(employee);
+    }
+
+
+
+
+
 }
