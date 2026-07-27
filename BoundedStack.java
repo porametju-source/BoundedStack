@@ -33,7 +33,7 @@ import java.util.Set;
     //ต้องบันทึกขาเข้าขาออก
     
 /**
- * BoundedStack — ADT ระบบจัดเก็บรายชื่อรายชื่อฟนักงาน
+ * BoundedStack — ADT ระบบจัดเก็บรายชื่อรายชื่อพนักงาน
  *
  * ค่านามธรรม (A): ลำดับของรายชื่อ เช่น [รายชื่อA, รายชื่อB, รายชื่อC]
  *
@@ -47,7 +47,7 @@ public class BoundedStack{
     private static final int MAX_EMPLOYEES = 1000;
 
     // ===== representation =====
-    private final List<String> employees;
+    final List<String> employees;
 
     private void checkRep() {
         assert employees != null : "พนักงานต้องไม่เป็นnull";

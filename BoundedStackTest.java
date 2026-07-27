@@ -56,8 +56,39 @@ public class BoundedStackTest {
         check("new() -> empty", empty.size() == 0);
         check("new() -> contains nothing", empty.size() == 0);
 
+        BoundedStack r = new BoundedStack(Arrays.asList("A", "B", "C"));
+        check("new(list) -> size 3", r.size() == 3);
+        check("new(list) -> contains B", r.contains("B"));
+        check("new((list) -> preserve order", r.employees.equals(Arrays.asList("A", "B", "C"))); 
+
+        BoundedStack formEmpty = new BoundedStack(new ArrayList<String>());
+        check("new(emptyList) -> empty", formEmpty.size() == 0);
+
+        boolean threwcopy = false;
+        try {
+            new BoundedStack(Arrays.asList("A", "A"));
+        } catch (IllegalArgumentException e) {
+            threwcopy = true;
      }
-       
+        check("new(list with duplicates) -> throws", threwcopy);
+
+        boolean threwNull = false;
+        try {
+            new BoundedStack(Arrays.asList("A", null));
+        } catch (IllegalArgumentException e) {
+            threwNull = true;
+        }
+        check("new(list with null) -> throws", threwNull);
+         
+        boolean threwNullList = false;
+        try {
+            new BoundedStack(null);
+        } catch (IllegalArgumentException e) {
+            threwNullList = true;
+        }
+        check("new(null) -> throws", threwNullList);
+    }
+
      private static void testPush() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'testPush'");
