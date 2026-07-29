@@ -60,6 +60,7 @@ public class BoundedStack{
             assert s != null : "ชื่ออีเมลต้องไม่เป็นnull";
             assert !s.trim().isEmpty() : "ชื่ออีเมลต้องไม่เป็นสตริงว่าง";
             assert !seen.contains(s) : "ชื่ออีเมลต้องไม่ซ้ำกัน";
+            assert s.length() <= 30 : "ชื่ออีเมลต้องไม่เกิน 30 ตัวอักษร";
             seen.add(s);
         }
     }
@@ -93,8 +94,18 @@ public class BoundedStack{
         if (emails.size() >= MAX_EMAIL) {
             throw new IllegalStateException("อีเมลเต็มแล้ว: ");
         }
-
-
+        Set<String> seen = new HashSet<>();
+        for (String email : emails) {
+            if (email == null || email.trim().isEmpty()) {
+                throw new IllegalArgumentException("ชื่ออีเมลต้องไม่เป็น null หรือช่องว่าง: " + email);
+            }
+            if (seen.contains(email)) {
+                throw new IllegalArgumentException("ชื่ออีเมลต้องไม่ซ้ำกัน: " + email);
+            }
+            if(email.length() > 30){
+                throw new IllegalArgumentException("ชื่ออีเมลต้องไม่เกิน 30 ตัวอักษร: " + email);
+            }
+        }
         // เมื่อผ่าน Validation แล้วค่อยสร้าง Copy
         this.emails = new ArrayList<>(emails);
         checkRep();
@@ -141,8 +152,13 @@ public class BoundedStack{
         emails.remove(email);
         checkRep();
     }
+    public String peek() {
+        if (emails.isEmpty()) {
+            throw new IllegalStateException("ไม่มีอีเมลในระบบ");
+        }
+        return emails.get(emails.size() - 1);
+    }
         
-
 
     /**
      * obsever
@@ -170,6 +186,10 @@ public class BoundedStack{
         return emails.contains(email);
 
     }
+
+	public boolean contains(String string) {
+		return emails.contains(string);
+	}
 
 
 
