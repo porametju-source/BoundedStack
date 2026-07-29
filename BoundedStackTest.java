@@ -3,11 +3,6 @@
  * Test runner 
  */
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;   
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class BoundedStackTest {
 
@@ -94,9 +89,35 @@ public class BoundedStackTest {
         check("new(null) -> throws IllegalArgumentException", threwNullList);
     }
 
+    
      private static void testPush() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testPush'");
+        System.out.println("=== testPush ===");
+        BoundedStack stack = new BoundedStack();
+        stack.push("poramet123@gmail.com");
+        check("push() -> size 1", stack.size() == 1);
+        check("push() -> contains email", stack.contains("poramet123@gmail.com"));
+
+        // test pushing empty
+        boolean threwEmpty = false;
+        try {
+            stack.push("");
+        } catch (IllegalArgumentException e) {
+            threwEmpty = true;
+        }
+        check("push(empty string) -> throws IllegalArgumentException", threwEmpty);
+
+        // test pushing null
+        boolean threwNullEmail = false;
+        try {
+            stack.push(null);
+        } catch (IllegalArgumentException e) {
+            threwNullEmail = true;
+        }
+        check("push(null) -> throws IllegalArgumentException", threwNullEmail);
+        
+
+
+
     }
      private static void testPop() {
         // TODO Auto-generated method stub
