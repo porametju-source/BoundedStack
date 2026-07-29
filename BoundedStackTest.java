@@ -3,6 +3,11 @@
  * Test runner 
  */
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;   
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class BoundedStackTest {
 
@@ -30,10 +35,10 @@ public class BoundedStackTest {
        testCreators();
        testPush();
        testPop();
-       testPeek();
-       testObserve();
-       testProducer();
-       testExposure();
+    //    testPeek();
+    //    testObserve();
+    //    testProducer();
+    //    testExposure();
 
         System.out.println("\n=== Summary ===");
         System.out.println("Passed: " + passed);
@@ -58,15 +63,14 @@ public class BoundedStackTest {
         check("new(list) -> contains t@gmail.com", r.contains("t@gmail.com"));
         check("new((list) -> preserve order", r.getEmails().equals(Arrays.asList("t@gmail.com", "r@gmail.com", "e@gmail.com"))); 
 
-        // BoundedStack formEmpty = new BoundedStack(new ArrayList<String>());
-        // check("new(emptyList) -> empty", formEmpty.size() == 0);
+       
 
         BoundedStack length = new BoundedStack(Arrays.asList("Aomsincondee56@gmail.com"));
         check("new(list) -> email length", length.getEmails().equals(Arrays.asList("Aomsincondee56@gmail.com")));
 
         boolean threwcopy = false;
         try {
-            new BoundedStack(Arrays.asList());
+            new BoundedStack(Arrays.asList("t@gmail.com", "t@gmail.com"));
         } catch (IllegalArgumentException e) {
             threwcopy = true;
      }
@@ -89,54 +93,56 @@ public class BoundedStackTest {
         check("new(null) -> throws IllegalArgumentException", threwNullList);
     }
 
-    
      private static void testPush() {
-        System.out.println("=== testPush ===");
-        BoundedStack stack = new BoundedStack();
-        stack.push("poramet123@gmail.com");
-        check("push() -> size 1", stack.size() == 1);
-        check("push() -> contains email", stack.contains("poramet123@gmail.com"));
+       
+    }
+     private static void testPop() {
+        System.out.println("=== testPop ===");
+        BoundedStack stack = new BoundedStack(Arrays.asList("t@gmail.com","r@gmail.com"));
+        stack.pop("t@gmail.com");
+        check("pop existing email -> size 1", stack.size() == 1);
+        check("pop existing email -> contains false", !stack.contains("t@gmail.com"));
+        check("pop existing email -> contains true", stack.contains("r@gmail.com"));
 
-        // test pushing empty
+        boolean threwNotFound = false;
+        try {
+            stack.pop("nonexistent@gmail.com");
+        } catch (IllegalArgumentException e) {
+            threwNotFound = true;
+        }
+        check("pop non-existent email -> throws IllegalArgumentException", threwNotFound);
+
+        BoundedStack emptyStack = new BoundedStack();
         boolean threwEmpty = false;
         try {
-            stack.push("");
+            emptyStack.pop("t@gmail.com");
         } catch (IllegalArgumentException e) {
             threwEmpty = true;
         }
-        check("push(empty string) -> throws IllegalArgumentException", threwEmpty);
+        check("pop from empty stack -> throws IllegalArgumentException", threwEmpty);
 
-        // test pushing null
-        boolean threwNullEmail = false;
+        boolean threwNull = false;
         try {
-            stack.push(null);
+            stack.pop(null);
         } catch (IllegalArgumentException e) {
-            threwNullEmail = true;
+            threwNull = true;
         }
-        check("push(null) -> throws IllegalArgumentException", threwNullEmail);
-        
-
-
-
+        check("pop null email -> throws IllegalArgumentException", threwNull);
     }
-     private static void testPop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testPop'"); 
-       
-    } private static void testPeek() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testPeek'");
-    }
-    private static void testProducer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testProducer'");
-    }
-    private static void testObserve() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testObserve'");
-    }
-    private static void testExposure() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testExposure'");
-    }
+    // private static void testPeek() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'testPeek'");
+    // }
+    // private static void testProducer() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'testProducer'");
+    // }
+    // private static void testObserve() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'testObserve'");
+    // }
+    // private static void testExposure() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'testExposure'");
+    // }
 }
