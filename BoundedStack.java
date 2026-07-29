@@ -156,14 +156,7 @@ public class BoundedStack{
         emails.remove(email);
         checkRep();
     }
-    public String peek() {
-        if (emails.isEmpty()) {
-            throw new IllegalStateException("ไม่มีอีเมลในระบบ");
-        }
-        return emails.get(emails.size() - 1);
-    }
-        
-
+ 
     /**
      * obsever
      * param email ชื่ออีเมลที่ต้องการค้นหา
@@ -176,7 +169,10 @@ public class BoundedStack{
 
     public List<String> getEmails() {
         return new ArrayList<>(emails); 
-    }
+       }
+     public boolean contains(String string) {
+		return emails.contains(string);
+	}
 
 
     /**
@@ -185,21 +181,12 @@ public class BoundedStack{
      * @return true ถ้าพบอีเมลนี้, false ถ้าไม่พบ
      
      */
-    
-    public boolean search(String email) {
-       if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("ชื่ออีเมลต้องไม่เป็น null หรือสตริงว่าง");
-        }
-        if (!emails.contains(email)) {
-            throw new IllegalArgumentException("ไม่พบอีเมลนี้"+email);
-        }
-        return true;
-    }
-
-	public boolean contains(String string) {
-		return emails.contains(string);
-	}
-
+     public boolean reverse(){
+        java.util.Collections.reverse(emails);
+       checkRep(); 
+       return true;
+     }
+	
 
 
 
