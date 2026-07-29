@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;   
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,16 +13,19 @@ import java.util.Set;
 
 
 //AF
-    //AF(employees) =af(employees) = รายชื่อพนักงานที่อยู่ในระบบ 
+    //AF(emails) = รายชื่อพนักงานที่อยู่ในระบบ 
+    //[รายชื่อ email A, รายชื่อ email B, รายชื่อ email C]
+    //จะต้องสามารถแสดงรายชื่อพนักงานทั้งหมดที่อยู่ในระบบได้
+    //จะต้องสามารถเสิร์จรายชื่อพนักงานที่อยู่ในระบบได้
 
 
 
 //RI
-    //  RI = employees != null
-    // ชื่อพนักงานต้องไม่เป็น null
-    //ชื่อพนักงานต้องไม่เป็นสตริงว่าง
-    //ชื่อพนักงานต้องไม่ซ้ำกัน
-    //พนักงาน ต้องอยู่ระหว่าง 0 ถึง max
+    //  RI = emails != null
+    //ชื่ออีเมลต้องไม่เป็น null
+    //ชื่ออีเมลต้องไม่เป็นสตริงว่าง
+    //ชื่ออีเมลต้องไม่ซ้ำกัน
+    //อีเมล ต้องอยู่ระหว่าง 0 ถึง max
     
 
 
@@ -44,20 +46,21 @@ import java.util.Set;
  *     System.out.println(b.size());   // 2
  */
 public class BoundedStack{
-    private static final int MAX_EMPLOYEES = 1000;
+    private static final int MAX_EMAIL = 1000;
 
     // ===== representation =====
-    final List<String> employees;
+    final List<String> emails;
 
     private void checkRep() {
-        assert employees != null : "พนักงานต้องไม่เป็นnull";
-        assert employees.size() <= MAX_EMPLOYEES : "จำนวนพนักงานเกินจำนวนที่กำหนด"; 
+        assert emails != null : "อีเมลต้องไม่เป็นnull";
+        assert emails.size() <= MAX_EMAIL : "จำนวนอีเมลเกินจำนวนที่กำหนด"; 
        
         Set<String> seen = new HashSet<>();
-        for (String s : employees) {
-            assert s != null : "ชื่อพนักงานต้องไม่เป็นnull";
-            assert !s.trim().isEmpty() : "ชื่อพนักงานต้องไม่เป็นสตริงว่าง";
-            assert !seen.contains(s) : "ชื่อพนักงานต้องไม่ซ้ำกัน";
+        for (String s : emails) {
+            assert s != null : "ชื่ออีเมลต้องไม่เป็นnull";
+            assert !s.trim().isEmpty() : "ชื่ออีเมลต้องไม่เป็นสตริงว่าง";
+            assert !seen.contains(s) : "ชื่ออีเมลต้องไม่ซ้ำกัน";
+            assert s.length() <= 30 : "ชื่ออีเมลต้องไม่เกิน 30 ตัวอักษร";
             seen.add(s);
         }
     }
@@ -72,28 +75,39 @@ public class BoundedStack{
      * สร้างเพลย์ลิสต์ว่าง
      */
     public BoundedStack() {
-        this.employees = new ArrayList<>();
+        this.emails = new ArrayList<>();
         checkRep();
     }
 
 // ===== Creator2 =====
     /**
-     * 
-     * 
-     * @param employees
+     *@param emails รายชื่อพนักงานที่ต้องการเพิ่มในระบบ ต้องไม่เป็น null และไม่เป็นช่องว่าง       
+     *return BoundedStack ที่มีรายชื่อพนักงานตามที่กำหนด
+     * @throws IllegalArgumentException ถ้า emails เป็น null หรือช่องว่าง
+     * @throws IllegalStateException ถ้าอีเมลเต็มแล้ว
      */
 
-    public BoundedStack(List<String> employees) {
-        if (employees == null || employees.isEmpty()) {
-            throw new IllegalArgumentException("ชื่อพนักงานต้องไม่เป็น null หรือช่องว่าง: " );
+    public BoundedStack(List<String> emails) {
+        if (emails == null || emails.isEmpty()) {
+            throw new IllegalArgumentException("อีเมลต้องไม่เป็น null หรือช่องว่าง: " );
         }
-        if (employees.size() >= MAX_EMPLOYEES) {
-            throw new IllegalStateException("ชื่อพนักงานเต็มแล้ว: ");
+        if (emails.size() >= MAX_EMAIL) {
+            throw new IllegalStateException("อีเมลเต็มแล้ว: ");
         }
-
-
+        Set<String> seen = new HashSet<>();
+        for (String email : emails) {
+            if (email == null || email.trim().isEmpty()) {
+                throw new IllegalArgumentException("ชื่ออีเมลต้องไม่เป็น null หรือช่องว่าง: " + email);
+            }
+            if (seen.contains(email)) {
+                throw new IllegalArgumentException("ชื่ออีเมลต้องไม่ซ้ำกัน: " + email);
+            }
+            if(email.length() > 30){
+                throw new IllegalArgumentException("ชื่ออีเมลต้องไม่เกิน 30 ตัวอักษร: " + email);
+            }
+        }
         // เมื่อผ่าน Validation แล้วค่อยสร้าง Copy
-        this.employees = new ArrayList<>(employees);
+        this.emails = new ArrayList<>(emails);
         checkRep();
     }
 
@@ -106,19 +120,20 @@ public class BoundedStack{
      /**
      * TODO 6: เพิ่มรายชื่อในระบบ
      *
-     * @param employee ชื่อพนักงาน ต้องไม่เป็น null และไม่เป็นสตริงว่าง
-     * @return true ถ้าเพิ่มสำเร็จ, false ถ้ามีพนักงานนี้อยู่แล้วหรือเต็มแล้ว
-     * @throws IllegalArgumentException ถ้า employee เป็น null หรือสตริงว่าง
+     * @param email ชื่ออีเมล ต้องไม่เป็น null และไม่เป็นสตริงว่าง
+     * @return true ถ้าเพิ่มสำเร็จ, false ถ้ามีอีเมลนี้อยู่แล้วหรือเต็มแล้ว
+     * @throws IllegalArgumentException ถ้า email เป็น null หรือสตริงว่าง
+     * @throws IllegalStateException ถ้าอีเมลเต็มแล้ว
      */
 
-    public void push(String employee) {
-        if (employee == null || employee.trim().isEmpty()) {
-            throw new IllegalArgumentException("ชื่อพนักงานต้องไม่เป็น null หรือสตริงว่าง");
+    public void push(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("ชื่ออีเมลต้องไม่เป็น null หรือสตริงว่าง");
         }
-        if (employees.contains(employee) || employees.size() >= MAX_EMPLOYEES) {
-            throw new IllegalStateException("ชื่อพนักงานเต็มแล้ว");
+        if (emails.contains(email) || emails.size() >= MAX_EMAIL) {
+            throw new IllegalStateException("อีเมลเต็มแล้ว");
         }
-        employees.add(employee);
+        emails.add(email);
         checkRep();
     }
 
@@ -126,43 +141,56 @@ public class BoundedStack{
         /**
      * TODO 7: ลบรายชื่อพนักงานออกจากระบบ
      *
-     * @param employee ชื่อพนักงานที่ต้องการลบ
-     * @return true ถ้าลบสำเร็จ, false ถ้าไม่พบพนักงานนี้
+     * @param email ชื่ออีเมลที่ต้องการลบ
+     * @return true ถ้าลบสำเร็จ, false ถ้าไม่พบอีเมลนี้
+     * @throws IllegalArgumentException ถ้า email ไม่พบในระบบ
      */
-    public void pop(String employee) {
-        if (!employees.contains(employee)) {
-            throw new IllegalArgumentException("ไม่พบพนักงานนี้");
+    public void pop(String email) {
+        if (!emails.contains(email)) {
+            throw new IllegalArgumentException("ไม่พบอีเมลนี้");
         }
-        employees.remove(employee);
+        emails.remove(email);
         checkRep();
     }
+    public String peek() {
+        if (emails.isEmpty()) {
+            throw new IllegalStateException("ไม่มีอีเมลในระบบ");
+        }
+        return emails.get(emails.size() - 1);
+    }
         
-
 
     /**
      * obsever
-     * 
-     * 
+     * param email ชื่ออีเมลที่ต้องการค้นหา
+     * @return true ถ้าพบอีเมลนี้, false ถ้าไม่พบ
+        
      */
     public int size() {
-        return employees.size();
+        return emails.size();
     }
 
-    public List<String> getEmployees() {
-        return new ArrayList<>(employees); 
+    public List<String> getEmails() {
+        return new ArrayList<>(emails); 
     }
+
 
     /**
      * producer
-     *
+     * @param email ชื่ออีเมลที่ต้องการค้นหา
+     * @return true ถ้าพบอีเมลนี้, false ถ้าไม่พบ
+     
      */
-    public void reverseemployees(List<String> employees) {
-        Collections.reverse(employees);
-        
+    
+    public boolean search(String email) {
+        return emails.contains(email);
+
     }
-    public boolean contains(String employee) {
-        return employees.contains(employee);
-    }
+
+	public boolean contains(String string) {
+		return emails.contains(string);
+	}
+
 
 
 
