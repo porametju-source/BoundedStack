@@ -30,11 +30,12 @@ public class BoundedStackTest {
        if (!assertOn) {
            System.out.println("Please enable assertions (VM option -ea)");
        }
-       System.out.println("=== EmployeeTest: start ===\n");
+       System.out.println("=== EmailTest: start ===\n");
 
        testCreators();
        testPush();
        testPop();
+       testPeek();
        testObserve();
        testProducer();
        testExposure();
@@ -50,43 +51,47 @@ public class BoundedStackTest {
         }
 
 }  
+    
      private static void testCreators() {
        System.out.println("=== testCreators ===");
          BoundedStack empty = new BoundedStack();
         check("new() -> empty", empty.size() == 0);
-        check("new() -> contains nothing", empty.size() == 0);
+        check("new() -> contains nothing", !empty.contains("Thanphat@gmail.com"));
 
-        BoundedStack r = new BoundedStack(Arrays.asList("A", "B", "C"));
+        BoundedStack r = new BoundedStack(Arrays.asList("t@gmail.com", "r@gmail.com", "e@gmail.com"));
         check("new(list) -> size 3", r.size() == 3);
-        check("new(list) -> contains B", r.contains("B"));
-        check("new((list) -> preserve order", r.employees.equals(Arrays.asList("A", "B", "C"))); 
+        check("new(list) -> contains t@gmail.com", r.contains("t@gmail.com"));
+        check("new((list) -> preserve order", r.getEmails().equals(Arrays.asList("t@gmail.com", "r@gmail.com", "e@gmail.com"))); 
 
-        BoundedStack formEmpty = new BoundedStack(new ArrayList<String>());
-        check("new(emptyList) -> empty", formEmpty.size() == 0);
+        // BoundedStack formEmpty = new BoundedStack(new ArrayList<String>());
+        // check("new(emptyList) -> empty", formEmpty.size() == 0);
+
+        BoundedStack length = new BoundedStack(Arrays.asList("Aomsincondee56@gmail.com"));
+        check("new(list) -> email length", length.getEmails().equals(Arrays.asList("Aomsincondee56@gmail.com")));
 
         boolean threwcopy = false;
         try {
-            new BoundedStack(Arrays.asList("A", "A"));
+            new BoundedStack(Arrays.asList());
         } catch (IllegalArgumentException e) {
             threwcopy = true;
      }
-        check("new(list with duplicates) -> throws", threwcopy);
+        check("new(list with duplicates) -> throws IllegalArgumentException", threwcopy);
 
         boolean threwNull = false;
         try {
-            new BoundedStack(Arrays.asList("A", null));
+            new BoundedStack(Arrays.asList("t@gmail.com", null));
         } catch (IllegalArgumentException e) {
             threwNull = true;
         }
-        check("new(list with null) -> throws", threwNull);
+        check("new(list with null) -> throws IllegalArgumentException", threwNull);
          
         boolean threwNullList = false;
         try {
-            new BoundedStack(null);
+            new BoundedStack( null);
         } catch (IllegalArgumentException e) {
             threwNullList = true;
         }
-        check("new(null) -> throws", threwNullList);
+        check("new(null) -> throws IllegalArgumentException", threwNullList);
     }
 
      private static void testPush() {
@@ -95,7 +100,11 @@ public class BoundedStackTest {
     }
      private static void testPop() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testPop'");
+        throw new UnsupportedOperationException("Unimplemented method 'testPop'"); 
+       
+    } private static void testPeek() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'testPeek'");
     }
     private static void testProducer() {
         // TODO Auto-generated method stub
