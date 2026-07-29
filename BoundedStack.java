@@ -13,16 +13,19 @@ import java.util.Set;
 
 
 //AF
-    //AF(employees) =af(employees) = รายชื่อพนักงานที่อยู่ในระบบ 
+    //AF(emails) = รายชื่อพนักงานที่อยู่ในระบบ 
+    //[รายชื่อ email A, รายชื่อ email B, รายชื่อ email C]
+    //จะต้องสามารถแสดงรายชื่อพนักงานทั้งหมดที่อยู่ในระบบได้
+    //จะต้องสามารถเสิร์จรายชื่อพนักงานที่อยู่ในระบบได้
 
 
 
 //RI
-    //  RI = employees != null
-    // ชื่อพนักงานต้องไม่เป็น null
-    //ชื่อพนักงานต้องไม่เป็นสตริงว่าง
-    //ชื่อพนักงานต้องไม่ซ้ำกัน
-    //พนักงาน ต้องอยู่ระหว่าง 0 ถึง max
+    //  RI = emails != null
+    //ชื่ออีเมลต้องไม่เป็น null
+    //ชื่ออีเมลต้องไม่เป็นสตริงว่าง
+    //ชื่ออีเมลต้องไม่ซ้ำกัน
+    //อีเมล ต้องอยู่ระหว่าง 0 ถึง max
     
 
 
@@ -77,9 +80,10 @@ public class BoundedStack{
 
 // ===== Creator2 =====
     /**
-     * 
-     * 
-     * @param emails รายชื่อพนักงานที่ต้องการเพิ่มในระบบ ต้องไม่เป็น null และไม่เป็นช่องว่าง       
+     *@param emails รายชื่อพนักงานที่ต้องการเพิ่มในระบบ ต้องไม่เป็น null และไม่เป็นช่องว่าง       
+     *return BoundedStack ที่มีรายชื่อพนักงานตามที่กำหนด
+     * @throws IllegalArgumentException ถ้า emails เป็น null หรือช่องว่าง
+     * @throws IllegalStateException ถ้าอีเมลเต็มแล้ว
      */
 
     public BoundedStack(List<String> emails) {
@@ -108,6 +112,7 @@ public class BoundedStack{
      * @param email ชื่ออีเมล ต้องไม่เป็น null และไม่เป็นสตริงว่าง
      * @return true ถ้าเพิ่มสำเร็จ, false ถ้ามีอีเมลนี้อยู่แล้วหรือเต็มแล้ว
      * @throws IllegalArgumentException ถ้า email เป็น null หรือสตริงว่าง
+     * @throws IllegalStateException ถ้าอีเมลเต็มแล้ว
      */
 
     public void push(String email) {
@@ -127,6 +132,7 @@ public class BoundedStack{
      *
      * @param email ชื่ออีเมลที่ต้องการลบ
      * @return true ถ้าลบสำเร็จ, false ถ้าไม่พบอีเมลนี้
+     * @throws IllegalArgumentException ถ้า email ไม่พบในระบบ
      */
     public void pop(String email) {
         if (!emails.contains(email)) {
@@ -140,8 +146,9 @@ public class BoundedStack{
 
     /**
      * obsever
-     * 
-     * 
+     * param email ชื่ออีเมลที่ต้องการค้นหา
+     * @return true ถ้าพบอีเมลนี้, false ถ้าไม่พบ
+        
      */
     public int size() {
         return emails.size();
@@ -151,14 +158,19 @@ public class BoundedStack{
         return new ArrayList<>(emails); 
     }
 
+
     /**
      * producer
-     *
+     * @param email ชื่ออีเมลที่ต้องการค้นหา
+     * @return true ถ้าพบอีเมลนี้, false ถ้าไม่พบ
+     
      */
     
     public boolean search(String email) {
         return emails.contains(email);
+
     }
+
 
 
 
