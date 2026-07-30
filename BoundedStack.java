@@ -14,9 +14,9 @@ import java.util.Set;
 
 //AF
     //AF(emails) = รายชื่อพนักงานที่อยู่ในระบบ 
-    //[รายชื่อ email A, รายชื่อ email B, รายชื่อ email C]
-    //จะต้องสามารถแสดงรายชื่อพนักงานทั้งหมดที่อยู่ในระบบได้
-    //จะต้องสามารถเสิร์จรายชื่อพนักงานที่อยู่ในระบบได้
+    //[รายชื่อ email A@gmail.com, รายชื่อ email B@gmail.com, รายชื่อ email C@gmail.com]
+    //จะต้องสามารถแสดงรายชื่อีเมลทั้งหมดที่อยู่ในระบบได้
+    //จะต้องสามารถเสิร์จรายชื่ออีเมลที่อยู่ในระบบได้
 
 
 
@@ -35,15 +35,15 @@ import java.util.Set;
     //ต้องบันทึกขาเข้าขาออก
     
 /**
- * BoundedStack — ADT ระบบจัดเก็บรายชื่อรายชื่อพนักงาน
+ * BoundedStack — ADT ระบบจัดเก็บรายชื่ออีเมล
  *
- * ค่านามธรรม (A): ลำดับของรายชื่อ เช่น [รายชื่อA, รายชื่อB, รายชื่อC]
+ * ค่านามธรรม (A): ลำดับของรายชื่อ เช่น [รายชื่อA@gmail.com, รายชื่อB@gmail.com, รายชื่อC@gmail.com]
  *
  * ตัวอย่างการใช้งาน:
- *     BoundedStack b = new BoundedStack(3);
- *     b.add("thanaphat promjui");
- *     b.add("poramet junthorn");
- *     System.out.println(b.size());   // 2
+ *     BoundedStack emailStack = new BoundedStack(3);
+ *     emailStack.push("thqnaphat.pro@gmail.com");
+ *     emailStack.push("krisana@gmail.com");
+ *     System.out.println(emailStack.size());   // 2
  */
 public class BoundedStack{
     private static final int MAX_EMAIL = 1000;
@@ -72,7 +72,7 @@ public class BoundedStack{
 // ===== Creator =====
    
     /**
-     * สร้างเพลย์ลิสต์ว่าง
+     * สร้างรายชื่ออีเมลว่าง
      */
     public BoundedStack() {
         this.emails = new ArrayList<>();
@@ -81,10 +81,8 @@ public class BoundedStack{
 
 // ===== Creator2 =====
     /**
-     *@param emails รายชื่อพนักงานที่ต้องการเพิ่มในระบบ ต้องไม่เป็น null และไม่เป็นช่องว่าง       
-     *return BoundedStack ที่มีรายชื่อพนักงานตามที่กำหนด
-     * @throws IllegalArgumentException ถ้า emails เป็น null หรือช่องว่าง
-     * @throws IllegalStateException ถ้าอีเมลเต็มแล้ว
+     *@param emails รายชื่ออีเมลที่ต้องการเพิ่มในระบบ ต้องไม่เป็น null และไม่เป็นช่องว่าง       
+     *@throws IllegalArgumentException ถ้า emails เป็น null หรือช่องว่าง
      */
 
     public BoundedStack(List<String> emails) {
@@ -119,7 +117,7 @@ public class BoundedStack{
 // ===== Mutators =====
 
      /**
-     * TODO 6: เพิ่มรายชื่อในระบบ
+     * เพิ่มรายชื่ออีเมลในระบบ
      *
      * @param email ชื่ออีเมล ต้องไม่เป็น null และไม่เป็นสตริงว่าง
      * @return true ถ้าเพิ่มสำเร็จ, false ถ้ามีอีเมลนี้อยู่แล้วหรือเต็มแล้ว
@@ -142,8 +140,8 @@ public class BoundedStack{
     }
 
 
-        /**
-     * TODO 7: ลบรายชื่อพนักงานออกจากระบบ
+     /**
+     *  ลบรายชื่ออีเมลออกจากระบบ
      *
      * @param email ชื่ออีเมลที่ต้องการลบ
      * @return true ถ้าลบสำเร็จ, false ถ้าไม่พบอีเมลนี้
