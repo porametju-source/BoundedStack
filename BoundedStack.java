@@ -13,7 +13,7 @@ import java.util.Set;
 
 
 //AF
-    //AF(emails) = รายชื่อพนักงานที่อยู่ในระบบ 
+    //AF(emails) = รายชื่ออีเมลที่อยู่ในระบบ 
     //[รายชื่อ email A@gmail.com, รายชื่อ email B@gmail.com, รายชื่อ email C@gmail.com]
     //จะต้องสามารถแสดงรายชื่อีเมลทั้งหมดที่อยู่ในระบบได้
     //จะต้องสามารถเสิร์จรายชื่ออีเมลที่อยู่ในระบบได้
@@ -122,7 +122,6 @@ public class BoundedStack{
      * @param email ชื่ออีเมล ต้องไม่เป็น null และไม่เป็นสตริงว่าง
      * @return true ถ้าเพิ่มสำเร็จ, false ถ้ามีอีเมลนี้อยู่แล้วหรือเต็มแล้ว
      * @throws IllegalArgumentException ถ้า email เป็น null หรือสตริงว่าง
-     * @throws IllegalStateException ถ้าอีเมลเต็มแล้ว
      */
 
     public void push(String email) {
@@ -175,8 +174,8 @@ public class BoundedStack{
 
     /**
      * producer
-     * @param email ชื่ออีเมลที่ต้องการค้นหา
-     * @return true ถ้าพบอีเมลนี้, false ถ้าไม่พบ
+     * 
+     * @return true เมื่อลำดับของรายชื่ออีเมลถูกกลับด้าน, false ถ้าไม่สามารถกลับด้านได้
      
      */
      public boolean reverse(){
