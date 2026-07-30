@@ -96,7 +96,7 @@ public class BoundedStackTest {
         check("push() -> size 1", stack.size() == 1);
         check("push() -> contains email", stack.contains("poramet123@gmail.com"));
 
-        // test pushing empty
+
         boolean threwEmpty = false;
         try {
             stack.push("");
@@ -105,7 +105,7 @@ public class BoundedStackTest {
         }
         check("push(empty string) -> throws IllegalArgumentException", threwEmpty);
 
-        // test pushing null
+      
         boolean threwNullEmail = false;
         try {
             stack.push(null);
@@ -121,6 +121,7 @@ public class BoundedStackTest {
         check("pop existing email -> size 1", stack.size() == 1);
         check("pop existing email -> contains false", !stack.contains("t@gmail.com"));
         check("pop existing email -> contains true", stack.contains("r@gmail.com"));
+        
 
         boolean threwNotFound = false;
         try {
@@ -150,7 +151,6 @@ public class BoundedStackTest {
     private static void testProducer() {
         System.out.println("=== testProducer ===");
         BoundedStack a = new BoundedStack();
-
 
         a.push("email1@gmail.com");
         a.push("email2@gmail.com");
